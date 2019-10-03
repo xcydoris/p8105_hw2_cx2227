@@ -13,7 +13,7 @@ library(readxl)
 
 ## Problem 1
 
-### Part1: Read and clean the Mr. Trash Wheel sheet
+### Part 1: Read and clean the Mr. Trash Wheel sheet
 ```{r}
 trashwheel = read_excel("Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "Mr. Trash Wheel",
                         range = "A2:N406", na = "") %>%
@@ -22,7 +22,7 @@ trashwheel = read_excel("Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "Mr
   mutate(sports_balls = as.integer(round(sports_balls, 0)))
 ```
 
-### Part2: Read and clean precipitation data for 2017 and 2018
+### Part 2: Read and clean precipitation data for 2017 and 2018
 
 #### Read and clean 2017 precipitation data
 ```{r}
@@ -32,7 +32,7 @@ precip_2017 = read_excel("Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "2
 ```
 
 
-#### Read and clean 2018 precipiitation data
+#### Read and clean 2018 precipitation data
 ```{r}
 precip_2018 = read_excel("Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "2018 Precipitation", 
                          range = "A2:B14", na = "" ) %>%
@@ -44,4 +44,11 @@ precip_2018 = read_excel("Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "2
 combine_precip = left_join(precip_2017, precip_2018, by = "Month") %>%
   mutate(Month = month.name)
 ```
+
+### Part 3: Paragraph
+
+- The trashwheel dataset has `r nrow(trashwheel)` observations and the combined precipitation table has `r nrow(combine_precip)` obeservations.
+- The key variable of the trashwheel dataset is variable "sports_balls", and the key variable fo the combined precipitation table is variable total precipitation amount.
+- The total precipitation in 2018 is `r sum(pull(precip_2018, Total))` (in).
+- The median number of sports balls in a dumpster in 2017 is `r median(pull(filter(trashwheel, year == 2017), sports_balls))`
 
