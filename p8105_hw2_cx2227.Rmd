@@ -108,3 +108,30 @@ pols_snp_unem = full_join(pols_snp, unemployment, by = c("year","month"))
 - The combined dataset `pols_snp_unem` has `r nrow(pols_snp_unem)` observations from 1947 to 2015.
 - Key variables are `close` and `value`.
 
+
+## Problem 3
+
+### Part 1: Load and tidy the data
+
+```{r, fig.width=6, message = FALSE, warning=FALSE}
+pop_baby = read_csv("Popular_Baby_Names.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(gender = str_to_upper(gender), ethnicity = str_to_upper(ethnicity),
+         childs_first_name = str_to_upper(childs_first_name)) %>% 
+  mutate(ethnicity = recode(ethnicity, "ASIAN AND PACI" = "ASIAN AND PACIFIC ISLANDER",
+                            "BLACK NON HISP" = "BLACK NON HISPANIC",
+                            "WHITE NON HISP" = "WHITE NON HISPANIC")) %>% 
+  distinct()
+```
+
+### Part 2: Olivia table
+
+```{r, fig.width=6, message = FALSE, warning=FALSE}
+olivia = filter(pop_baby, gender == "FEMALE", childs_first_name == "OLIVIA") %>% 
+  select(-gender, -childs_first_name, -count) %>%
+  arrange(ethnicity, year_of_birth) %>% 
+  pivot_wider(names_from = year_of_birth, values_from = rank) %>% 
+  knitr::kable()
+olivia
+```
+
