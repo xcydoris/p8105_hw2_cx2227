@@ -100,4 +100,11 @@ pols_snp = full_join(pols_month, snp, by = c("year","month"))
 pols_snp_unem = full_join(pols_snp, unemployment, by = c("year","month"))
 ```
 
+### Part 5: Explaination
+
+- The `pols_month` dataset contains the number of different kinds of government staff and also the time of the data.
+- The `snp` dataset has the closing values with different dates.
+- The `unemployment` dataset contains the percentage of unemployment and the time data.
+- The combined dataset `pols_snp_unem` has `r nrow(pols_snp_unem)` observations from 1947 to 2015.
+- Key variables are `close` and `value`.
 
