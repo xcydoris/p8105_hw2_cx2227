@@ -52,3 +52,21 @@ combine_precip = left_join(precip_2017, precip_2018, by = "Month") %>%
 - The total precipitation in 2018 is `r sum(pull(precip_2018, Total))` (in).
 - The median number of sports balls in a dumpster in 2017 is `r median(pull(filter(trashwheel, year == 2017), sports_balls))`
 
+
+## Problem 2
+
+### Part 1: Clean the data in pols-month.csv.
+
+```{r, message = FALSE, warning=FALSE}
+plos_month = read_csv("./fivethirtyeight_datasets/pols-month.csv") %>%
+  separate(col = mon, into = c("year","month","day")) %>%
+  mutate(month = recode(month, "01" = "January", "02" = "February", "03" = "March", "04" = "April",
+                        "05" = "May", "06" = "June", "07" = "July", "08" = "August", "09" = "September",
+                        "10" = "October", "11" = "November", "12" = "December")) %>% 
+  select(prez_gop, prez_dem, everything()) %>%
+  pivot_longer(prez_gop:prez_dem, names_to = "president", names_prefix = "prez_") %>% 
+  filter(value != 0) %>% 
+  select(-day) %>%
+  select(-value)
+```
+
