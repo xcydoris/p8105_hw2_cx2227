@@ -135,3 +135,22 @@ olivia = filter(pop_baby, gender == "FEMALE", childs_first_name == "OLIVIA") %>%
 olivia
 ```
 
+### Part 3: Popular Male table
+
+```{r, fig.width=6, message = FALSE, warning=FALSE}
+popular_male = filter(pop_baby, gender == "MALE", rank == 1) %>%
+  select(-gender, -rank, -count) %>% 
+  arrange(ethnicity, year_of_birth, childs_first_name) %>% 
+  pivot_wider(names_from = year_of_birth, values_from = childs_first_name) %>%
+  knitr::kable()
+popular_male
+```
+
+### Part 4: Scatter plot
+
+```{r, fig.width=6, message = FALSE, warning=FALSE}
+filter(pop_baby, gender == "MALE", ethnicity == "WHITE NON HISPANIC", year_of_birth == 2016) %>% 
+  ggplot(aes(x = rank, y = count)) + 
+  geom_point(alpha = 0.3)
+```
+
